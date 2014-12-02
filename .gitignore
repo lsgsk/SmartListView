@@ -1,0 +1,9 @@
+﻿
+bin
+obj
+packages
+*.designer.cs
+*.userprefs
+*.suo
+*.apk
+*.dgml

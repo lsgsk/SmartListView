@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{8FC25398-4602-4DCB-A340-B6B630D6039C}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SmartView_SharedProject</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SmartListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SmartListView_scale.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SmartListView_scroller.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SmartListView_Tap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SmartListView_touch.cs" />
+  </ItemGroup>
+</Project>

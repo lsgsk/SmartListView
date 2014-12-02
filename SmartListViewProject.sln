@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartListViewProject", "SmartListViewProject\SmartListViewProject.csproj", "{54EB8988-61AD-4B06-A008-45072092ECB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingLibrary_Picasso", "BindingLibrary_Picasso\BindingLibrary_Picasso.csproj", "{F12F39AA-3AF9-4125-822F-71200D6DFE7C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject_SmartView", "SharedProject_SmartView\SharedProject_SmartView.shproj", "{8FC25398-4602-4DCB-A340-B6B630D6039C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54EB8988-61AD-4B06-A008-45072092ECB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54EB8988-61AD-4B06-A008-45072092ECB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54EB8988-61AD-4B06-A008-45072092ECB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54EB8988-61AD-4B06-A008-45072092ECB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12F39AA-3AF9-4125-822F-71200D6DFE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12F39AA-3AF9-4125-822F-71200D6DFE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12F39AA-3AF9-4125-822F-71200D6DFE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12F39AA-3AF9-4125-822F-71200D6DFE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SmartListViewProject\SmartListViewProject.csproj
+	EndGlobalSection
+EndGlobal
