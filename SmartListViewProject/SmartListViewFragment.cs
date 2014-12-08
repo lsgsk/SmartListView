@@ -23,7 +23,7 @@ namespace SmartListViewProject
             var a = new []{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6,Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15};
             var rd = new Random();
             var list = new List<int>();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 list.Add(a[rd.Next(a.Length - 1)]);
             }

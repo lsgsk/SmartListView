@@ -7,24 +7,28 @@ using Android.Widget;
 using System.Collections.Generic;
 using Android.Graphics;
 using Com.Squareup.Picasso;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace SmartListViewProject
 {   
     public class ImageListItemAdapter : MainListItemAdapter<int>
     {
         private readonly int width;
+        private readonly BitmapFactory.Options opt = new BitmapFactory.Options { InPurgeable = true, InPreferQualityOverSpeed = false, InJustDecodeBounds = false, InSampleSize = 10 };
+        private readonly Stopwatch sw  = new Stopwatch();
+
         public ImageListItemAdapter(Context context, IList<int> items) : base(context, items)
         {
             var wm = context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>();
-            var sz = new Point();
+            var sz = new Android.Graphics.Point();
             wm.DefaultDisplay.GetSize(sz);
             width = (int)(sz.X * 0.9);
+            CulculateTotalHeight();
         }      
         public override View GetView(int position, View convertView, ViewGroup parent)
-        {      
-            var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();   
+        {     
+            sw.Restart();
             NViewHolder nvh;
             if (convertView == null)
             {
@@ -38,15 +42,20 @@ namespace SmartListViewProject
                 nvh = convertView.Tag as NViewHolder;
                 nvh.Image.SetImageBitmap(null);
             }
+
             var item = this[position];
-            var opt = new BitmapFactory.Options { InPurgeable = true, InJustDecodeBounds = true, InPreferQualityOverSpeed = false };
-            using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
+            var size = GetItemSize(position);
+            if (convertView.LayoutParameters == null)
             {
-                convertView.LayoutParameters = new ViewGroup.LayoutParams(width, (opt.OutHeight * width) / opt.OutWidth);
-                convertView.SetPadding(5, 5, 5, 5);
-            } 
-            opt.InJustDecodeBounds = false;
-            opt.InSampleSize = 10;
+                convertView.LayoutParameters = new ViewGroup.LayoutParams(size.Width, size.Height);
+            }
+            else
+            {
+                convertView.LayoutParameters.Width = size.Width;
+                convertView.LayoutParameters.Height = size.Height;
+            }
+            convertView.SetPadding(5, 5, 5, 5);         
+
             using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
             {
                 nvh.Image.SetImageBitmap(img);
@@ -60,7 +69,36 @@ namespace SmartListViewProject
         public class NViewHolder : Java.Lang.Object
         {
             public ImageView Image;
-        }    
+        }
+
+        private readonly List<Size> heights = new List<Size>();
+        public Size GetItemSize(int position)
+        {
+            return heights[position];
+        }
+
+        public int TotalHeight
+        {
+            get;
+            set;
+        }
+
+        public void CulculateTotalHeight()
+        {
+            sw.Restart();
+            foreach (var item in Items)
+            {
+                var op = new BitmapFactory.Options { InJustDecodeBounds = true };
+                using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, op))
+                {
+                    var size = new Size(width, (op.OutHeight * width) / op.OutWidth);
+                    TotalHeight += size.Height;
+                    heights.Add(size);
+                } 
+            }
+            Console.WriteLine(string.Format("Total height: {0} - {1}", sw.ElapsedMilliseconds, TotalHeight));
+            sw.Stop();
+        }
     }
 }
     /*var task = Task.Factory.StartNew(() =>
