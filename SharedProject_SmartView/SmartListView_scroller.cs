@@ -6,7 +6,7 @@ using Android.Content;
 using Android.Graphics;
 using Java.Interop;
 
-namespace SmartListView
+namespace SmartListViewLibrary
 {
     public partial class SmartListView
     {
@@ -69,6 +69,7 @@ namespace SmartListView
         public void CenterListPosition()
         {
             flinging = false;
+            //mScale = BaseScaleValue;
             SenterViewOntoScreen();
             flinging = true;
         }
@@ -78,7 +79,7 @@ namespace SmartListView
             if (flinging)
                 return false;
 
-            var size = new Android.Graphics.Point();
+            var size = new Point();
             var display = (Android.App.Application.Context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>()).DefaultDisplay;
             display.GetSize(size);
             var Width = size.X;

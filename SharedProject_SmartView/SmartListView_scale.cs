@@ -6,7 +6,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.App;
 
-namespace SmartListView
+namespace SmartListViewLibrary
 {
     public partial class SmartListView
     {     
@@ -20,7 +20,15 @@ namespace SmartListView
             return base.DrawChild(canvas, child, drawingTime);
         }
 
-        public float mScale = (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
+        public static float BaseScaleValue
+        {
+            get
+            {
+                return (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
+            }
+        }
+
+        public float mScale = BaseScaleValue;
         private const  float REFLOW_SCALE_FACTOR = 0.5f;
         private const  float MIN_SCALE = 0.5f;
         private const  float MAX_SCALE = 5.0f;

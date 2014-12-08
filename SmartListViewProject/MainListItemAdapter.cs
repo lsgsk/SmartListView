@@ -11,57 +11,70 @@ using System.Threading.Tasks;
 
 namespace SmartListViewProject
 {   
-    public class ImageListItemAdapter : MainListItemAdapter<int>
+
+    public abstract class MainListItemAdapter<T>: BaseAdapter
     {
-        private readonly int width;
-        public ImageListItemAdapter(Context context, IList<int> items) : base(context, items)
-        {
-            var wm = context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>();
-            var sz = new Point();
-            wm.DefaultDisplay.GetSize(sz);
-            width = (int)(sz.X * 0.9);
-        }      
-        public override View GetView(int position, View convertView, ViewGroup parent)
-        {      
-            var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();   
-            NViewHolder nvh;
-            if (convertView == null)
-            {
-                convertView = Inflater.Inflate(Resource.Layout._myItem_SmartItem, parent, false);
-                nvh = new NViewHolder();
-                nvh.Image = convertView.FindViewById<ImageView>(Resource.Id.ActivityImage);    
-                convertView.Tag = nvh;
-            }
-            else
-            {
-                nvh = convertView.Tag as NViewHolder;
-                nvh.Image.SetImageBitmap(null);
-            }
-            var item = this[position];
-            var opt = new BitmapFactory.Options { InPurgeable = true, InJustDecodeBounds = true, InPreferQualityOverSpeed = false };
-            using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
-            {
-                convertView.LayoutParameters = new ViewGroup.LayoutParams(width, (opt.OutHeight * width) / opt.OutWidth);
-                convertView.SetPadding(5, 5, 5, 5);
-            } 
-            opt.InJustDecodeBounds = false;
-            opt.InSampleSize = 10;
-            using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
-            {
-                nvh.Image.SetImageBitmap(img);
-            }
-            Picasso.With(Context).Load(item).NoPlaceholder().Into(nvh.Image);
-            Console.WriteLine(string.Format("Position: {0}, CreatingTime: {1}", position, sw.ElapsedMilliseconds));
-            sw.Stop();
-            return convertView;
+        protected List<T> Items;
+        protected float Density;
+        protected LayoutInflater Inflater;
+        protected Context Context;
+
+        protected MainListItemAdapter(Context context, IList<T> items = null)
+        {   
+            Context = context;
+            Density  = Application.Context.Resources.DisplayMetrics.Density;
+            Inflater = context.GetSystemService(Context.LayoutInflaterService) as LayoutInflater;
+            Items = new List<T>(items);
         }
 
-        public class NViewHolder : Java.Lang.Object
+        public T this [int position]
         {
-            public ImageView Image;
-        }    
+            get 
+            { 
+                return Items[position];
+            }
+        }
+
+        /// <exception cref="T:System.NotImplementedException"></exception>
+        public override Java.Lang.Object GetItem(int position)
+        {
+            throw new NotImplementedException("Not use GetItem");
+        }
+
+        public virtual void ChangeItems(IList<T> items)
+        {
+            if(items == null)
+                Items = new List<T>(items);
+            Items.Clear();
+            Items.AddRange(items);
+            NotifyDataSetChanged();
+        } 
+
+        public virtual void AddItems(IList<T> items)
+        {
+            Items.AddRange(items);
+            NotifyDataSetChanged();
+        } 
+        public virtual void SimpleInvalidate()
+        {
+            NotifyDataSetChanged();
+        } 
+
+        public override int Count
+        {
+            get { return (Items != null) ? Items.Count : 0; }
+        }
+
+        public override long GetItemId(int position)
+        {
+            return position;
+        }
+        public int ConvertDpToPixels(float dpValue)
+        {
+            return (int) ((dpValue)*Density);
+        }
     }
+
 }
     /*var task = Task.Factory.StartNew(() =>
             {    

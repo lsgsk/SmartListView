@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ImageListItemAdapter.cs" />
     <Compile Include="SmartListViewFragment.cs" />
+    <Compile Include="MainListItemAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

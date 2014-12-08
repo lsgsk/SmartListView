@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using System;
+using SmartListViewLibrary;
 
 namespace SmartListViewProject
 {
@@ -19,7 +20,7 @@ namespace SmartListViewProject
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            var a = new int[]{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6,Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15};
+            var a = new []{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6,Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15};
             var rd = new Random();
             var list = new List<int>();
             for (int i = 0; i < 50; i++)
@@ -30,12 +31,12 @@ namespace SmartListViewProject
         }
 
         private IAdapter adapter;
-        private SmartListView.SmartListView mListView;
+        private SmartListView mListView;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout._Fragment_SmartListView, container, false);
-            mListView = view.FindViewById<SmartListView.SmartListView>(Resource.Id.SmartListView);
+            mListView = view.FindViewById<SmartListView>(Resource.Id.SmartListView);
             mListView.Adapter = adapter;
             return view;
         }
@@ -43,7 +44,11 @@ namespace SmartListViewProject
         public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
-            mListView.CenterListPosition();
+            using (var h = new Handler(Looper.MainLooper))
+            {
+                h.PostDelayed(mListView.CenterListPosition, 0);
+            }
+            
         }
 
         /*public override void OnSaveInstanceState(Bundle outState)

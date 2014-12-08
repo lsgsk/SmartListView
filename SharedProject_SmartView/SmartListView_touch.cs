@@ -6,7 +6,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.Views.Animations;
 
-namespace SmartListView
+namespace SmartListViewLibrary
 {
     public partial class SmartListView 
     {

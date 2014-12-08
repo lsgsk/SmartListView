@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff313C51">
-    <SmartListView.SmartListView
+    <SmartListViewLibrary.SmartListView
         android:id="@+id/SmartListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

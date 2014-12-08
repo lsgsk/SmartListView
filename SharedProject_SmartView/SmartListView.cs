@@ -4,13 +4,13 @@ using Android.Util;
 using Android.Views;
 using Android.Content;
 
-namespace SmartListView
+namespace SmartListViewLibrary
 {
     public partial class SmartListView : AdapterView<IAdapter>, ScaleGestureDetector.IOnScaleGestureListener, GestureDetector.IOnGestureListener, GestureDetector.IOnDoubleTapListener
     {
         private  GestureDetector mGestureDetector;
         private  ScaleGestureDetector mScaleGestureDetector;
-        public   Scroller mScroller;
+        private  Scroller mScroller;
 
         public SmartListView(Context context, IAttributeSet attrs) : base(context, attrs)
         {

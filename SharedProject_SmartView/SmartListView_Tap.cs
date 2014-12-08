@@ -6,13 +6,14 @@ using Android.Content;
 using Android.Graphics;
 using Android.App;
 
-namespace SmartListView
+namespace SmartListViewLibrary
 {
     public partial class SmartListView
     {     
+
         public bool OnDoubleTap(MotionEvent e) 
         {
-            mScale = (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
+            mScale = BaseScaleValue;
             RequestLayout();
             SenterViewOntoScreen();
             return true;
