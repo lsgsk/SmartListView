@@ -3,13 +3,14 @@ using Android.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Content;
+using System.Diagnostics;
 
 namespace SmartListViewLibrary
 {
     public struct ScrollEventArgs
     {
-        public int scrolled;
-        public float scale;
+        public int ScrolledFactor;
+        public float ScaleFactor;
     }
 
     public partial class SmartListView : AdapterView<IAdapter>, ScaleGestureDetector.IOnScaleGestureListener, GestureDetector.IOnGestureListener, GestureDetector.IOnDoubleTapListener
@@ -37,6 +38,7 @@ namespace SmartListViewLibrary
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {      
             //без этой функции не будет перестройка размеров уже отображаемых вьюшек
+            //Вот тут крайне не рационально
             base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
             int n = ChildCount;
             for (int i = 0; i < n; i++)
@@ -64,7 +66,7 @@ namespace SmartListViewLibrary
             PositionItems();
             Invalidate();
             if (ScrollEvent != null)
-                ScrollEvent(this, new ScrollEventArgs(){ scale = mScale, scrolled = mListTop });
+                ScrollEvent(this, new ScrollEventArgs(){ ScaleFactor = mScale, ScrolledFactor = mListTop });
         }
 
         private void FillList(int offset)
@@ -86,6 +88,7 @@ namespace SmartListViewLibrary
                 Console.WriteLine("mLastItemPosition++ " + mLastItemPosition);
                 View newBottomchild = mAdapter.GetView(mLastItemPosition, CachedView, this);
                 AddAndMeasureChild(newBottomchild, LAYOUT_MODE_BELOW);
+                //bottomEdge += (mAdapter as SmartListViewProject.ImageListItemAdapter).GetItemSize(mLastItemPosition).Height;// (newBottomchild.Height == 0) ? newBottomchild.MeasuredHeight : newBottomchild.Height;
                 bottomEdge += newBottomchild.MeasuredHeight;
             }
         }
@@ -98,6 +101,7 @@ namespace SmartListViewLibrary
                 Console.WriteLine("mFirstItemPosition-- " + mFirstItemPosition);
                 View newTopCild = mAdapter.GetView(mFirstItemPosition, CachedView, this);
                 AddAndMeasureChild(newTopCild, LAYOUT_MODE_ABOVE);
+                //int childHeight = (mAdapter as SmartListViewProject.ImageListItemAdapter).GetItemSize(mLastItemPosition).Height; //(newTopCild.Height == 0) ? newTopCild.MeasuredHeight: newTopCild.Height;
                 int childHeight = newTopCild.MeasuredHeight;
                 topEdge -= childHeight;
                 // update the list offset (since we added a view at the top)
@@ -215,8 +219,10 @@ namespace SmartListViewLibrary
             MeasureView(child);
         }
 
-        private void MeasureView(View v)
+        private readonly Stopwatch sw  = new Stopwatch();
+        private void MeasureView(View v) 
         {
+            //sw.Restart();
             /*
             int childWidthSpec = MeasureSpec.MakeMeasureSpec(Width, MeasureSpecMode.Exactly);//(v.Width, MeasureSpecMode.Exactly);
             int childHeightSpec = MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);//(v.Height, MeasureSpecMode.Unspecified);
@@ -240,12 +246,9 @@ namespace SmartListViewLibrary
             //float scale = System.Math.Min((float)Width / (float)v.MeasuredWidth, (float)Height / (float)v.MeasuredHeight);
             // Use the fitting values scaled by our current scale factor
             v.Measure(MeasureSpec.MakeMeasureSpec((int)(v.MeasuredWidth * mScale), MeasureSpecMode.Exactly), MeasureSpec.MakeMeasureSpec((int)(v.MeasuredHeight * mScale), MeasureSpecMode.Exactly));
+            //Console.WriteLine(string.Format("View hash: {0}, View measure time: {1}", v.GetHashCode(), sw.ElapsedMilliseconds));
+            //sw.Stop();
         }
-
-        /*public float Proportion
-        {
-            get;set;
-        }*/
 
         private View CachedView
         {

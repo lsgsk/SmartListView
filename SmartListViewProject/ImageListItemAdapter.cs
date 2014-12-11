@@ -9,14 +9,14 @@ using Android.Graphics;
 using Com.Squareup.Picasso;
 using System.Drawing;
 using System.Diagnostics;
+using Android.OS;
 
 namespace SmartListViewProject
 {   
     public class ImageListItemAdapter : MainListItemAdapter<int>
     {
         private readonly int width;
-        private readonly int height;
-        private readonly BitmapFactory.Options opt = new BitmapFactory.Options { InPurgeable = true, InPreferQualityOverSpeed = false, InJustDecodeBounds = false, InSampleSize = 10 };
+        private readonly BitmapFactory.Options opt = new BitmapFactory.Options { InPurgeable = true, InPreferQualityOverSpeed = false, InJustDecodeBounds = false, InSampleSize = 20 };
         private readonly Stopwatch sw  = new Stopwatch();
 
         public ImageListItemAdapter(Context context, IList<int> items) : base(context, items)
@@ -25,7 +25,6 @@ namespace SmartListViewProject
             var sz = new Android.Graphics.Point();
             wm.DefaultDisplay.GetSize(sz);
             width = (int)(sz.X * 0.9);
-            height = sz.Y;
             CulculateTotalHeight();
         }      
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -45,24 +44,35 @@ namespace SmartListViewProject
                 nvh.Image.SetImageBitmap(null);
             }
 
+            if (nvh.Task != null && !nvh.Task.IsCancelled)
+            {
+                nvh.Task.Cancel(true);
+                nvh.Task = null;
+            }
+
             var item = this[position];
             var size = GetItemSize(position);
             if (convertView.LayoutParameters == null)
             {
                 convertView.LayoutParameters = new ViewGroup.LayoutParams(size.Width, size.Height);
+                convertView.SetPadding(5, 5, 5, 5);  
             }
             else
             {
                 convertView.LayoutParameters.Width = size.Width;
                 convertView.LayoutParameters.Height = size.Height;
-            }
-            convertView.SetPadding(5, 5, 5, 5);         
-
+            }                   
+           
             using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
             {
                 nvh.Image.SetImageBitmap(img);
             }
             Picasso.With(Context).Load(item).NoPlaceholder().Into(nvh.Image);
+       
+            //var task = new ActDecodeTask(nvh.Image, item);
+            //task.Execute();
+            //nvh.Task = task;
+
             Console.WriteLine(string.Format("Position: {0}, CreatingTime: {1}", position, sw.ElapsedMilliseconds));
             sw.Stop();
             return convertView;
@@ -71,6 +81,7 @@ namespace SmartListViewProject
         public class NViewHolder : Java.Lang.Object
         {
             public ImageView Image;
+            public AsyncTask Task;
         }
 
         private readonly List<Size> heights = new List<Size>();
@@ -98,9 +109,48 @@ namespace SmartListViewProject
                     heights.Add(size);
                 } 
             }
-            //TotalHeight -= height;
             Console.WriteLine(string.Format("Total height: {0} - {1}", sw.ElapsedMilliseconds, TotalHeight));
             sw.Stop();
+        }
+    }
+
+    public class ActDecodeTask: AsyncTask
+    {
+        private readonly WeakReference<ImageView> imageViewReference;
+        private readonly int item;
+        private readonly BitmapFactory.Options opt = new BitmapFactory.Options { InPurgeable = true, InPreferQualityOverSpeed = false, InJustDecodeBounds = false, InSampleSize = 20 };
+    
+        public ActDecodeTask(ImageView imageView, int item)
+        {
+            this.item = item;
+            this.imageViewReference = new WeakReference<ImageView>(imageView);
+        }
+
+        protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] @params)
+        {
+            if (IsCancelled)                
+                return null;
+
+            if (!IsCancelled)
+            {
+                return BitmapFactory.DecodeResource(Application.Context.Resources, item, opt);
+            }
+            else
+            {
+                Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@");
+                return null;
+            }
+        }           
+
+        protected override void OnPostExecute(Java.Lang.Object bitmap)
+        {
+            if (IsCancelled)
+                return;
+
+            ImageView imageView;
+            imageViewReference.TryGetTarget(out imageView);
+            if (imageView != null)
+                imageView.SetImageBitmap(bitmap as Bitmap);
         }
     }
 }

@@ -1,17 +1,12 @@
 using System;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Collections.Generic;
-using Android.Graphics;
-using Com.Squareup.Picasso;
-using System.Threading.Tasks;
 
 namespace SmartListViewProject
 {   
-
     public abstract class MainListItemAdapter<T>: BaseAdapter
     {
         protected List<T> Items;
