@@ -6,11 +6,18 @@ using Android.Content;
 
 namespace SmartListViewLibrary
 {
+    public struct ScrollEventArgs
+    {
+        public int scrolled;
+        public float scale;
+    }
+
     public partial class SmartListView : AdapterView<IAdapter>, ScaleGestureDetector.IOnScaleGestureListener, GestureDetector.IOnGestureListener, GestureDetector.IOnDoubleTapListener
     {
-        private  GestureDetector mGestureDetector;
-        private  ScaleGestureDetector mScaleGestureDetector;
-        private  Scroller mScroller;
+        private GestureDetector mGestureDetector;
+        private ScaleGestureDetector mScaleGestureDetector;
+        private Scroller mScroller;
+        public event EventHandler<ScrollEventArgs> ScrollEvent;
 
         public SmartListView(Context context, IAttributeSet attrs) : base(context, attrs)
         {
@@ -56,6 +63,8 @@ namespace SmartListViewLibrary
             }
             PositionItems();
             Invalidate();
+            if (ScrollEvent != null)
+                ScrollEvent(this, new ScrollEventArgs(){ scale = mScale, scrolled = mListTop });
         }
 
         private void FillList(int offset)
@@ -270,7 +279,7 @@ namespace SmartListViewLibrary
             throw new Java.Lang.UnsupportedOperationException("Not supported");
         }
 
-        public override Android.Views.View SelectedView
+        public override View SelectedView
         {
             get
             {

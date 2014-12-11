@@ -2,7 +2,6 @@
 using Android.App;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using System;
 using SmartListViewLibrary;
 
@@ -23,14 +22,14 @@ namespace SmartListViewProject
             var a = new []{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6,Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15};
             var rd = new Random();
             var list = new List<int>();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 list.Add(a[rd.Next(a.Length - 1)]);
             }
             adapter = new ImageListItemAdapter(Activity, list);
         }
 
-        private IAdapter adapter;
+        private ImageListItemAdapter /*IAdapter*/ adapter;
         private SmartListView mListView;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -38,6 +37,13 @@ namespace SmartListViewProject
             var view = inflater.Inflate(Resource.Layout._Fragment_SmartListView, container, false);
             mListView = view.FindViewById<SmartListView>(Resource.Id.SmartListView);
             mListView.Adapter = adapter;
+            var scr = view.FindViewById<VerticalSeekBar>(Resource.Id.mainVerticalSeekBar);
+            scr.Max = adapter.TotalHeight;
+            mListView.ScrollEvent += delegate(object sender, ScrollEventArgs e)
+            {
+                scr.Max = (int)(adapter.TotalHeight * e.scale) - Activity.WindowManager.DefaultDisplay.Height;
+                scr.Progress = scr.Max - Math.Abs(e.scrolled);
+            };
             return view;
         }
 

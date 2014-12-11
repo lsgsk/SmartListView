@@ -4,12 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff313C51">
-    <SmartListViewLibrary.SmartListView
-        android:id="@+id/SmartListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/mainVerticalSeekBar"
-        android:layout_alignParentLeft="true" />
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
@@ -17,7 +11,7 @@
         android:layout_width="30dp"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:visibility="gone">
+        android:visibility="visible">
         <SmartListViewProject.VerticalSeekBar
             android:id="@+id/mainVerticalSeekBar"
             android:layout_width="wrap_content"
@@ -27,4 +21,10 @@
             android:progress="1000"
             android:secondaryProgress="1000" />
     </LinearLayout>
+    <SmartListViewLibrary.SmartListView
+        android:id="@+id/SmartListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/mainVerticalSeekBar"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>

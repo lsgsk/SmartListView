@@ -15,6 +15,7 @@ namespace SmartListViewProject
     public class ImageListItemAdapter : MainListItemAdapter<int>
     {
         private readonly int width;
+        private readonly int height;
         private readonly BitmapFactory.Options opt = new BitmapFactory.Options { InPurgeable = true, InPreferQualityOverSpeed = false, InJustDecodeBounds = false, InSampleSize = 10 };
         private readonly Stopwatch sw  = new Stopwatch();
 
@@ -24,6 +25,7 @@ namespace SmartListViewProject
             var sz = new Android.Graphics.Point();
             wm.DefaultDisplay.GetSize(sz);
             width = (int)(sz.X * 0.9);
+            height = sz.Y;
             CulculateTotalHeight();
         }      
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -96,6 +98,7 @@ namespace SmartListViewProject
                     heights.Add(size);
                 } 
             }
+            //TotalHeight -= height;
             Console.WriteLine(string.Format("Total height: {0} - {1}", sw.ElapsedMilliseconds, TotalHeight));
             sw.Stop();
         }
