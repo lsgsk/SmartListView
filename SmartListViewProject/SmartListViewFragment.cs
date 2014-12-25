@@ -44,8 +44,6 @@ namespace SmartListViewProject
                 scr.Max = (int)(adapter.TotalHeight * e.ScaleFactor) - Activity.WindowManager.DefaultDisplay.Height;
                 scr.Progress = scr.Max - (-1 * e.ScrolledFactor);
             };
-            //пока так
-            scr.Enabled = false;
             scr.OnSeek += delegate(object sender, int e)
             {
                 mListView.mListTop = -1 * e;
