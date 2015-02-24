@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Views;
 using System;
 using SmartListViewLibrary;
+using Android.Graphics;
 
 namespace SmartListViewProject
 {
@@ -19,7 +20,7 @@ namespace SmartListViewProject
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            var a = new []{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6,Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15};
+            var a = new []{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6, Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15 };
             var rd = new Random();
             var list = new List<int>();
             for (int i = 0; i < 30; i++)
@@ -28,9 +29,6 @@ namespace SmartListViewProject
             }
             adapter = new ImageListItemAdapter(Activity, list);
         }
-
-        private ImageListItemAdapter /*IAdapter*/ adapter;
-        private SmartListView mListView;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -41,14 +39,16 @@ namespace SmartListViewProject
             scr.Max = adapter.TotalHeight;
             mListView.SeekBarChangeEvent += delegate(object sender, ScrollEventArgs e)
             {
-                scr.Max = (int)(adapter.TotalHeight * e.ScaleFactor) - Activity.WindowManager.DefaultDisplay.Height;
+                Activity.WindowManager.DefaultDisplay.GetSize(sz);
+                var height = sz.Y;
+                scr.Max = (int)(adapter.TotalHeight * e.ScaleFactor) - height;
                 scr.Progress = scr.Max - (-1 * e.ScrolledFactor);
             };
-            /*scr.OnSeek += delegate(object sender, int e)
+            scr.OnSeek += delegate(object sender, int e)
             {
                 mListView.mListTop = -1 * e;
                 mListView.RequestLayout();
-            };*/
+            };
             return view;
         }
 
@@ -58,24 +58,11 @@ namespace SmartListViewProject
             using (var h = new Handler(Looper.MainLooper))
             {
                 h.PostDelayed(mListView.CenterListPosition, 0);
-            }
-            
+            }            
         }
-
-        /*public override void OnSaveInstanceState(Bundle outState)
-        {
-            base.OnSaveInstanceState(outState);
-            mListTop = mListView.mListTop;
-            var view = mListView.GetChildAt(0);
-            mListLeftProportion = (view == null || mListView.Width > view.Width) ? -1 : (float)mListView.mListLeft / (float)view.Width;
-            mScale = mListView.mScale;
-        }*/
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            adapter.Dispose();
-        }
+        private ImageListItemAdapter adapter;
+        private SmartListView mListView;
+        private Point sz = new Point();
     }
 }
 

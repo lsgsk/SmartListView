@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.Views;
+using Android.App;
 
 namespace SmartListViewLibrary
 {
@@ -47,14 +48,13 @@ namespace SmartListViewLibrary
         {
             get
             {
-                return 0.8f;
-                //return (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
+                return (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
             }
         }
         /// <summary>
         /// Current scale factor
         /// </summary>
-        private float mScale = InitialScaleFactor;
+        public float mScale = InitialScaleFactor;
         /// <summary>
         /// The minimal scale factor
         /// </summary>

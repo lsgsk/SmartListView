@@ -78,7 +78,7 @@ namespace SmartListViewLibrary
             while (bottomEdge + offset < Height && mLastItemPosition < mAdapter.Count - 1)
             {
                 mLastItemPosition++;
-                Console.WriteLine("mLastItemPosition++ " + mLastItemPosition);
+                Console.WriteLine("SmartListView. mLastItemPosition++ " + mLastItemPosition);
                 View newBottomchild = mAdapter.GetView(mLastItemPosition, CachedView, this);
                 AddAndMeasureChild(newBottomchild, LAYOUT_MODE_BELOW);
                 bottomEdge += newBottomchild.MeasuredHeight;
@@ -90,7 +90,7 @@ namespace SmartListViewLibrary
             while (topEdge + offset > 0 && mFirstItemPosition > 0)
             {
                 mFirstItemPosition--;
-                Console.WriteLine("mFirstItemPosition-- " + mFirstItemPosition);
+                Console.WriteLine("SmartListView. mFirstItemPosition-- " + mFirstItemPosition);
                 View newTopCild = mAdapter.GetView(mFirstItemPosition, CachedView, this);
                 AddAndMeasureChild(newTopCild, LAYOUT_MODE_ABOVE);
                 int childHeight = newTopCild.MeasuredHeight;
