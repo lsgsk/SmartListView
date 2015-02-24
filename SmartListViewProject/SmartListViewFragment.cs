@@ -39,16 +39,16 @@ namespace SmartListViewProject
             mListView.Adapter = adapter;
             var scr = view.FindViewById<VerticalSeekBar>(Resource.Id.mainVerticalSeekBar);
             scr.Max = adapter.TotalHeight;
-            mListView.ScrollEvent += delegate(object sender, ScrollEventArgs e)
+            mListView.SeekBarChangeEvent += delegate(object sender, ScrollEventArgs e)
             {
                 scr.Max = (int)(adapter.TotalHeight * e.ScaleFactor) - Activity.WindowManager.DefaultDisplay.Height;
                 scr.Progress = scr.Max - (-1 * e.ScrolledFactor);
             };
-            scr.OnSeek += delegate(object sender, int e)
+            /*scr.OnSeek += delegate(object sender, int e)
             {
                 mListView.mListTop = -1 * e;
                 mListView.RequestLayout();
-            };
+            };*/
             return view;
         }
 

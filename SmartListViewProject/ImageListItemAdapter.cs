@@ -26,34 +26,10 @@ namespace SmartListViewProject
             wm.DefaultDisplay.GetSize(sz);
             width = (int)(sz.X * 0.9);
             CulculateTotalHeight();
-        }      
-
-        public static bool fast = true;
-        public View fastview = new View(Application.Context);
+        }   
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {     
-            /*if (fast)
-            {
-                sw.Restart(); 
-                var s = GetItemSize(position);
-                if (fastview.LayoutParameters == null)
-                {
-                    fastview.LayoutParameters = new ViewGroup.LayoutParams(s.Width, s.Height);
-                    fastview.SetPadding(5, 5, 5, 5);  
-                    fastview.SetBackgroundColor(Android.Graphics.Color.Red);
-                }
-                else
-                {
-                    fastview.LayoutParameters.Width = s.Width;
-                    fastview.LayoutParameters.Height = s.Height;
-                }        
-                Console.WriteLine(string.Format("Position: {0}, CreatingTime: {1}", position, sw.ElapsedMilliseconds));
-                sw.Stop();
-                return fastview;
-                }
-            */
-
             sw.Restart();
             NViewHolder nvh;
             if (convertView == null)
@@ -69,11 +45,11 @@ namespace SmartListViewProject
                 nvh.Image.SetImageBitmap(null);
             }
 
-            if (nvh.Task != null && !nvh.Task.IsCancelled)
+            /*if (nvh.Task != null && !nvh.Task.IsCancelled)
             {
                 nvh.Task.Cancel(true);
                 nvh.Task = null;
-            }
+            }*/
 
             var item = this[position];
             var size = GetItemSize(position);
@@ -88,16 +64,15 @@ namespace SmartListViewProject
                 convertView.LayoutParameters.Height = size.Height;
             }                   
            
-            /*using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
+            using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, opt))
             {
                 nvh.Image.SetImageBitmap(img);
             }
-            Picasso.With(Context).Load(item).NoPlaceholder().Into(nvh.Image);*/
+            Picasso.With(Context).Load(item).NoPlaceholder().Into(nvh.Image);
        
             //var task = new ActDecodeTask(nvh.Image, item);
             //task.Execute();
             //nvh.Task = task;
-
             Console.WriteLine(string.Format("Position: {0}, CreatingTime: {1}", position, sw.ElapsedMilliseconds));
             sw.Stop();
             return convertView;
@@ -126,7 +101,7 @@ namespace SmartListViewProject
             sw.Restart();
             foreach (var item in Items)
             {
-                var op = new BitmapFactory.Options { InJustDecodeBounds = true };
+                var op = new BitmapFactory.Options {InJustDecodeBounds = true };
                 using (var img = BitmapFactory.DecodeResource(Application.Context.Resources, item, op))
                 {
                     var size = new Size(width, (op.OutHeight * width) / op.OutWidth);

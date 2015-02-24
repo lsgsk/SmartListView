@@ -1,42 +1,14 @@
 ﻿using System;
-using Android.Widget;
-using Android.Util;
 using Android.Views;
-using Android.Content;
-using Android.Graphics;
-using Android.App;
 
 namespace SmartListViewLibrary
 {
     public partial class SmartListView
-    {     
-        protected override void DispatchDraw(Android.Graphics.Canvas canvas)
-        {
-            base.DispatchDraw(canvas);
-        }
-
-        protected override bool DrawChild(Canvas canvas, View child, long drawingTime)
-        {  
-            return base.DrawChild(canvas, child, drawingTime);
-        }
-
-        public static float BaseScaleValue
-        {
-            get
-            {
-                return (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
-            }
-        }
-
-        public float mScale = BaseScaleValue;
-        private const  float REFLOW_SCALE_FACTOR = 0.5f;
-        private const  float MIN_SCALE = 0.5f;
-        private const  float MAX_SCALE = 5.0f;
-
+    {  
         public bool OnScale(ScaleGestureDetector detector)
         {
             float previousScale = mScale;
-            mScale = System.Math.Min(System.Math.Max(mScale * detector.ScaleFactor, MIN_SCALE), MAX_SCALE);
+            mScale = Math.Min(Math.Max(mScale * detector.ScaleFactor, MinScale), MaxScale);
             {
                 var factor = mScale / previousScale;
                 var v = GetChildAt(0);
@@ -56,16 +28,9 @@ namespace SmartListViewLibrary
             return true;
         }
 
-        bool mScaling;
         public bool OnScaleBegin(ScaleGestureDetector detector)
         {
             mScaling = true;
-            // Ignore any scroll amounts yet to be accounted for: the
-            // screen is not showing the effect of them, so they can
-            // only confuse the user
-            // Avoid jump at end of scaling by disabling scrolling
-            // until the next start of gesture
-            //mScrollDisabled = true;
             return true;
         }
 
@@ -73,7 +38,35 @@ namespace SmartListViewLibrary
         {
             mScaling = false;
             //RequestLayout();
-        }              
+        }  
+
+        /// <summary>
+        /// Gets the initial scale factor.
+        /// </summary>
+        public static float InitialScaleFactor
+        {
+            get
+            {
+                return 0.8f;
+                //return (Application.Context.Resources.Configuration.Orientation == Android.Content.Res.Orientation.Landscape) ? 1f : 0.8f;
+            }
+        }
+        /// <summary>
+        /// Current scale factor
+        /// </summary>
+        private float mScale = InitialScaleFactor;
+        /// <summary>
+        /// The minimal scale factor
+        /// </summary>
+        private const float MinScale = 0.5f;
+        /// <summary>
+        /// The maximum scale factor
+        /// </summary>
+        private const  float MaxScale = 5.0f;
+        /// <summary>
+        /// The list is in scrolling
+        /// </summary>
+        private bool mScaling; 
     }
 }
 

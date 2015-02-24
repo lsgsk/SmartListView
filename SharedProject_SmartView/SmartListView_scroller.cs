@@ -1,6 +1,4 @@
 ﻿using System;
-using Android.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Content;
 using Android.Graphics;
@@ -18,8 +16,6 @@ namespace SmartListViewLibrary
             return true;
         }
 
-        private volatile bool flinging  = false;
-        private volatile bool rails = false;
         public virtual bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
         {
             if (SenterViewOntoScreen())
@@ -56,14 +52,6 @@ namespace SmartListViewLibrary
                     SenterViewOntoScreen();
                 }
             }
-            /*else if (!mUserInteracting)
-            {
-                // End of an inertial scroll and the user is not interacting.
-                // The layout is stable
-                View v = mChildViews.Get(mCurrent);
-                if (v != null)
-                    PostSettle(v);
-            }*/
         }
 
         public void CenterListPosition()
@@ -82,12 +70,12 @@ namespace SmartListViewLibrary
             var size = new Point();
             var display = (Android.App.Application.Context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>()).DefaultDisplay;
             display.GetSize(size);
-            var Width = size.X;
+            var width = size.X;
 
             var view = GetChildAt(0);
             int dx = 0, dy = 0;
 
-            var dif = (Width - view.Width) / 2;
+            var dif = (width - view.Width) / 2;
             if (dif > 0)
             {
                 dx = dif - mListLeft;
@@ -96,9 +84,9 @@ namespace SmartListViewLibrary
             {
                 if (mListLeft > 0)
                     dx = -mListLeft;
-                if (Width - view.Right > 0)
+                if (width - view.Right > 0)
                 {
-                    dx = (Width - (mListLeft + view.Width));
+                    dx = (width - (mListLeft + view.Width));
                 }
             } 
             if (mLastItemPosition == mAdapter.Count - 1)
@@ -134,14 +122,6 @@ namespace SmartListViewLibrary
                 RequestLayout();
                 Post(PositionRun);
             }
-            /*else if (!mUserInteracting)
-            {
-                // End of an inertial scroll and the user is not interacting.
-                // The layout is stable
-                View v = mChildViews.Get(mCurrent);
-                if (v != null)
-                    PostSettle(v);
-            }*/
         }
 
 
@@ -162,17 +142,19 @@ namespace SmartListViewLibrary
         public void OnLongPress(MotionEvent e)
         {
         }
+        /// <summary>
+        /// moving by inertia
+        /// </summary>
+        private volatile bool flinging  = false;
+        /// <summary>
+        /// is perpendicular movement allowed
+        /// </summary>
+        private volatile bool rails = false;
+    }
+
+    public struct ScrollEventArgs
+    {
+        public int ScrolledFactor;
+        public float ScaleFactor;
     }
 }
-
-
-/*
-                mScroller.ComputeScrollOffset();
-                //int x = mScroller.CurrX;
-                int y = mScroller.CurrY;
-                //mListLeft += x - mScrollerLastX;
-                mListTop  += y - mScrollerLastY;
-                //mScrollerLastX = x;
-                mScrollerLastY = y;
-                RequestLayout();
-                Post(Run);*/

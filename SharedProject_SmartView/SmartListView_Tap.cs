@@ -1,21 +1,15 @@
-﻿using System;
-using Android.Widget;
-using Android.Util;
-using Android.Views;
-using Android.Content;
-using Android.Graphics;
-using Android.App;
+﻿using Android.Views;
 
 namespace SmartListViewLibrary
 {
     public partial class SmartListView
-    {     
-
+    { 
         public bool OnDoubleTap(MotionEvent e) 
         {
-            mScale = BaseScaleValue;
+            //TODO: this realization is incorrect sometimes
+            /*mScale = BaseScaleValue;
             RequestLayout();
-            SenterViewOntoScreen();
+            SenterViewOntoScreen();*/
             return true;
         } 
 
