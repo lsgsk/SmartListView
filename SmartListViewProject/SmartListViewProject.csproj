@@ -63,33 +63,30 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\_Fragment_SmartListView.axml" />
     <AndroidResource Include="Resources\layout\_myItem_SmartItem.axml" />
-    <AndroidResource Include="Resources\drawable\img0.jpg" />
-    <AndroidResource Include="Resources\drawable\img1.jpg" />
-    <AndroidResource Include="Resources\drawable\img2.jpg" />
-    <AndroidResource Include="Resources\drawable\img3.jpg" />
-    <AndroidResource Include="Resources\drawable\img4.jpg" />
-    <AndroidResource Include="Resources\drawable\img5.jpg" />
-    <AndroidResource Include="Resources\drawable\img6.jpg" />
-    <AndroidResource Include="Resources\drawable\img7.jpg" />
-    <AndroidResource Include="Resources\drawable\img8.jpg" />
-    <AndroidResource Include="Resources\drawable\img9.jpg" />
-    <AndroidResource Include="Resources\drawable\img10.jpg" />
-    <AndroidResource Include="Resources\drawable\img11.jpg" />
-    <AndroidResource Include="Resources\drawable\img12.jpg" />
-    <AndroidResource Include="Resources\drawable\img13.jpg" />
-    <AndroidResource Include="Resources\drawable\img14.jpg" />
-    <AndroidResource Include="Resources\drawable\img15.jpg" />
   </ItemGroup>
   <Import Project="..\SharedProject_SmartView\SmartView_SharedProject.projitems" Label="Shared" Condition="Exists('..\SharedProject_SmartView\SmartView_SharedProject.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\BindingLibrary_Picasso\BindingLibrary_Picasso.csproj">
-      <Project>{F12F39AA-3AF9-4125-822F-71200D6DFE7C}</Project>
-      <Name>BindingLibrary_Picasso</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Adapters\" />
     <Folder Include="Views\" />
+    <Folder Include="Assets\Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Images\img0.jpg" />
+    <AndroidAsset Include="Assets\Images\img1.jpg" />
+    <AndroidAsset Include="Assets\Images\img10.jpg" />
+    <AndroidAsset Include="Assets\Images\img11.jpg" />
+    <AndroidAsset Include="Assets\Images\img12.jpg" />
+    <AndroidAsset Include="Assets\Images\img13.jpg" />
+    <AndroidAsset Include="Assets\Images\img14.jpg" />
+    <AndroidAsset Include="Assets\Images\img15.jpg" />
+    <AndroidAsset Include="Assets\Images\img2.jpg" />
+    <AndroidAsset Include="Assets\Images\img3.jpg" />
+    <AndroidAsset Include="Assets\Images\img4.jpg" />
+    <AndroidAsset Include="Assets\Images\img5.jpg" />
+    <AndroidAsset Include="Assets\Images\img6.jpg" />
+    <AndroidAsset Include="Assets\Images\img7.jpg" />
+    <AndroidAsset Include="Assets\Images\img8.jpg" />
+    <AndroidAsset Include="Assets\Images\img9.jpg" />
   </ItemGroup>
 </Project>

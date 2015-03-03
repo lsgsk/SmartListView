@@ -20,12 +20,10 @@ namespace SmartListViewProject
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            var a = new []{ Resource.Drawable.img0, Resource.Drawable.img1, Resource.Drawable.img2, Resource.Drawable.img3, Resource.Drawable.img4, Resource.Drawable.img5, Resource.Drawable.img6, Resource.Drawable.img7, Resource.Drawable.img8, Resource.Drawable.img9, Resource.Drawable.img10, Resource.Drawable.img11, Resource.Drawable.img12, Resource.Drawable.img13, Resource.Drawable.img14, Resource.Drawable.img15 };
-            var rd = new Random();
-            var list = new List<int>();
+            var list = new List<string>();
             for (int i = 0; i < 30; i++)
             {
-                list.Add(a[rd.Next(a.Length - 1)]);
+                list.Add("Images/img" + (i % 15) + ".jpg");
             }
             adapter = new ImageListItemAdapter(Activity, list);
         }
@@ -52,17 +50,17 @@ namespace SmartListViewProject
             return view;
         }
 
-        public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
+        /*public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
             using (var h = new Handler(Looper.MainLooper))
             {
                 h.PostDelayed(mListView.CenterListPosition, 0);
             }            
-        }
+        }*/
         private ImageListItemAdapter adapter;
         private SmartListView mListView;
-        private Point sz = new Point();
+        private readonly Point sz = new Point();
     }
 }
 

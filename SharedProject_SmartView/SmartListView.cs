@@ -258,7 +258,7 @@ namespace SmartListViewLibrary
         /// </summary>
         private IAdapter mAdapter;
         /// <summary>
-        /// The adaptor position of the first visible item
+        /// The adapter position of the first visible item
         /// </summary>
         private int mFirstItemPosition;
         /// <summary>
