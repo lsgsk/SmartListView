@@ -89,4 +89,7 @@
     <AndroidAsset Include="Assets\Images\img8.jpg" />
     <AndroidAsset Include="Assets\Images\img9.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <LinkDescription Include="FixAdapterLinking.xml" />
+  </ItemGroup>
 </Project>

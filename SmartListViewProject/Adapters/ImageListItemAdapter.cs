@@ -81,12 +81,8 @@ namespace SmartListViewProject
                 }, TaskContinuationOptions.NotOnCanceled, nvh.nTaskToken.Token);
             nvh.nTask.ContinueWith((bm) =>
                 { 
-                    Console.WriteLine("!!!!!!!!!!!!!!!!!!!!" + bm.Result.ToString());
                     nvh.nImage.SetImageBitmap(bm.Result);
                 }, TaskScheduler.FromCurrentSynchronizationContext());
-
-
-            //Picasso.With(Context).Load(item).NoPlaceholder().Into(nvh.Image);
             Console.WriteLine(string.Format("Position: {0}, CreatingTime: {1}", position, sw.ElapsedMilliseconds));
             sw.Stop();
             return convertView;
