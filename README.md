@@ -9,7 +9,8 @@ SmartListView inherits the interface of AdapterView thus being able to work with
 Copyright (c) 2010, Sony Ericsson Mobile Communication AB. All rights reserved.
 http://developer.sonymobile.com/2010/05/20/android-tutorial-making-your-own-3d-list-part-1/
 
-Ported and improved to Xamarin.Android by Lysov Alexsandr
+Copyright (c) 2015 Lysov Alexsandr
+
 
 
 
